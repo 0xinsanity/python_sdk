@@ -38,6 +38,7 @@ def create_order_object(
     order_external_id: Optional[str] = None,
     time_in_force: TimeInForce = TimeInForce.GTT,
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
+    order_type: OrderType = OrderType.LIMIT,
 ) -> PerpetualOrderModel:
     """
     Creates an order object to be placed on the exchange using the `place_order` method.
@@ -60,6 +61,7 @@ def create_order_object(
         order_external_id=order_external_id,
         time_in_force=time_in_force,
         self_trade_protection_level=self_trade_protection_level,
+        order_type=order_type,
     )
 
 
@@ -79,6 +81,7 @@ def __create_order_object(
     order_external_id: Optional[str] = None,
     time_in_force: TimeInForce = TimeInForce.GTT,
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
+    order_type: OrderType = OrderType.LIMIT,
 ) -> PerpetualOrderModel:
     if exact_only:
         raise NotImplementedError("`exact_only` option is not supported yet")
@@ -99,8 +102,8 @@ def __create_order_object(
     )
 
     amounts = StarkOrderAmounts(
-        collateral_amount_internal=collateral_amount_human,
         synthetic_amount_internal=synthetic_amount_human,
+        collateral_amount_internal=collateral_amount_human,
         fee_amount_internal=fee,
         fee_rate=fees.taker_fee_rate,
         rounding_context=rounding_context,
@@ -130,7 +133,7 @@ def __create_order_object(
     order = PerpetualOrderModel(
         id=order_id,
         market=market.name,
-        type=OrderType.LIMIT,
+        type=order_type,
         side=side,
         qty=synthetic_amount_human.value,
         price=price,
