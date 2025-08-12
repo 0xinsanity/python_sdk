@@ -7,7 +7,7 @@ Minimum Python version required to use this library is `3.10` (you can use [pyen
 ## Installation 
 
 ```shell
-pip install x10-python-trading
+pip install x10-python-trading-starknet
 ```
 
 Our SDK makes use of a [Rust Library](https://github.com/x10xchange/stark-crypto-wrapper) to accelerate signing and hashing of stark components. Currently this library supports the following environments
@@ -19,7 +19,7 @@ Our SDK makes use of a [Rust Library](https://github.com/x10xchange/stark-crypto
 | linux (glibc) - arm64 |   ✅   |   ✅   |   ✅   |   ✅   |
 | linux (musl) - arm64  |   ✅   |   ✅   |   ✅   |   ✅   |
 | OSX - arm64           |   ✅   |   ✅   |   ✅   |   ✅   |
-| windows - x86         |   ⚠️   |   ⚠️   |   ⚠️   |   ⚠️   |
+| windows - x86         |   ✅   |   ✅   |   ✅   |   ✅   |
 | windows - arm64       |   ⚠️   |   ⚠️   |   ⚠️   |   ⚠️   |
 
 
