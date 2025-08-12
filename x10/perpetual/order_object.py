@@ -43,6 +43,7 @@ def create_order_object(
     order_external_id: Optional[str] = None,
     time_in_force: TimeInForce = TimeInForce.GTT,
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
+    order_type: OrderType = OrderType.LIMIT,
     nonce: Optional[int] = None,
 ) -> PerpetualOrderModel:
     """
@@ -70,6 +71,7 @@ def create_order_object(
         order_external_id=order_external_id,
         time_in_force=time_in_force,
         self_trade_protection_level=self_trade_protection_level,
+        order_type=order_type,
         starknet_domain=starknet_domain,
         nonce=nonce,
     )
@@ -92,6 +94,7 @@ def __create_order_object(
     order_external_id: Optional[str] = None,
     time_in_force: TimeInForce = TimeInForce.GTT,
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
+    order_type: OrderType = OrderType.LIMIT,
     nonce: Optional[int] = None,
 ) -> PerpetualOrderModel:
     if exact_only:
@@ -121,6 +124,13 @@ def __create_order_object(
     else:
         stark_synthetic_amount = stark_synthetic_amount.negate()
 
+    amounts = StarkOrderAmounts(
+        synthetic_amount_internal=synthetic_amount_human,
+        collateral_amount_internal=collateral_amount_human,
+        fee_amount_internal=fee,
+        fee_rate=fees.taker_fee_rate,
+        rounding_context=rounding_context,
+    )
     debugging_amounts = StarkDebuggingOrderAmountsModel(
         collateral_amount=Decimal(stark_collateral_amount.value),
         fee_amount=Decimal(stark_fee_amount.value),
@@ -149,7 +159,7 @@ def __create_order_object(
     order = PerpetualOrderModel(
         id=order_id,
         market=market.name,
-        type=OrderType.LIMIT,
+        type=order_type,
         side=side,
         qty=synthetic_amount_human.value,
         price=price,
