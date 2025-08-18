@@ -45,6 +45,7 @@ def create_order_object(
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
     order_type: OrderType = OrderType.LIMIT,
     nonce: Optional[int] = None,
+    reduce_only: Optional[bool] = False,
 ) -> PerpetualOrderModel:
     """
     Creates an order object to be placed on the exchange using the `place_order` method.
@@ -74,6 +75,7 @@ def create_order_object(
         order_type=order_type,
         starknet_domain=starknet_domain,
         nonce=nonce,
+        reduce_only=reduce_only,
     )
 
 
@@ -96,6 +98,7 @@ def __create_order_object(
     self_trade_protection_level: SelfTradeProtectionLevel = SelfTradeProtectionLevel.ACCOUNT,
     order_type: OrderType = OrderType.LIMIT,
     nonce: Optional[int] = None,
+    reduce_only: bool = False,
 ) -> PerpetualOrderModel:
     if exact_only:
         raise NotImplementedError("`exact_only` option is not supported yet")
@@ -165,6 +168,7 @@ def __create_order_object(
         cancel_id=previous_order_external_id,
         settlement=settlement,
         debugging_amounts=debugging_amounts,
+        reduce_only=reduce_only,
     )
 
     return order
